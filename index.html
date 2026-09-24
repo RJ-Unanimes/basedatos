@@ -7,63 +7,74 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="contenedor-principal">
+
+    <!-- PANTALLA DE LOGIN -->
+    <div id="pantalla-login" class="login-contenedor">
+        <div class="login-caja">
+            <h2 style="color: #0284c7; margin-bottom: 10px;">Red Unánimes</h2>
+            <p style="color: #64748b; margin-bottom: 25px;">Acceso exclusivo para Liderazgo</p>
+            <form id="formulario-login">
+                <div class="campo">
+                    <label>Usuario:</label>
+                    <input type="text" id="login-username" required placeholder="Ej. admin o juan">
+                </div>
+                <div class="campo" style="margin-top: 15px;">
+                    <label>Contraseña:</label>
+                    <input type="password" id="login-password" required placeholder="********">
+                </div>
+                <button type="submit" class="btn-primario" style="width: 100%; margin-top: 25px;">Iniciar Sesión</button>
+            </form>
+            <p id="mensaje-error-login" style="color: #ef4444; margin-top: 15px; display: none; font-size: 0.9rem; text-align: center;">Credenciales incorrectas.</p>
+        </div>
+    </div>
+
+    <!-- APLICACIÓN PRINCIPAL -->
+    <div id="app-principal" class="contenedor-principal" style="display: none;">
         <!-- Menú Lateral -->
         <aside class="menu-lateral">
             <h2>Red Unánimes</h2>
             <nav>
                 <button onclick="mostrarSeccion('panel')">Inicio</button>
                 <button onclick="mostrarSeccion('jovenes')">Directorio de Jóvenes</button>
-                <button onclick="mostrarSeccion('eventos')">Gestión de Eventos</button>
-                <button onclick="mostrarSeccion('conectores')">Equipo de Conectores</button>
+                <button id="menu-eventos" onclick="mostrarSeccion('eventos')">Gestión de Eventos</button>
+                <button id="menu-conectores" onclick="mostrarSeccion('conectores')">Equipo de Conectores</button>
+                <hr style="border-top: 1px solid #334155; margin: 10px 0;">
+                <!-- NUEVO: Botón de Mi Perfil -->
+                <button id="btn-abrir-mi-perfil" style="color: #38bdf8;">👤 Mi Perfil</button>
             </nav>
+            <button id="btn-cerrar-sesion" style="margin-top: auto; color: #ef4444; border-top: 1px solid #334155; border-radius: 0; padding-top: 20px;">🚪 Cerrar Sesión</button>
         </aside>
 
         <!-- Área de Contenido -->
         <main class="contenido">
-            <!-- PANTALLA DE INICIO (DASHBOARD) -->
             <section id="panel" class="seccion-activa">
                 <h1>Panel de Control</h1>
                 <p>Resumen general de la Red Juvenil Unánimes.</p>
-                
                 <div class="tarjetas-resumen">
-                    <div class="tarjeta-stat" style="border-left-color: #0284c7;">
-                        <h3>Total Jóvenes</h3>
-                        <p id="stat-jovenes">0</p>
-                    </div>
-                    <div class="tarjeta-stat" style="border-left-color: #10b981;">
-                        <h3>Eventos</h3>
-                        <p id="stat-eventos">0</p>
-                    </div>
-                    <div class="tarjeta-stat" style="border-left-color: #8b5cf6;">
-                        <h3>Conectores</h3>
-                        <p id="stat-conectores">0</p>
-                    </div>
+                    <div class="tarjeta-stat" style="border-left-color: #0284c7;"><h3>Total Jóvenes</h3><p id="stat-jovenes">0</p></div>
+                    <div class="tarjeta-stat" style="border-left-color: #10b981;"><h3>Eventos</h3><p id="stat-eventos">0</p></div>
+                    <div class="tarjeta-stat" style="border-left-color: #8b5cf6;"><h3>Conectores</h3><p id="stat-conectores">0</p></div>
                 </div>
-
                 <h3 style="margin-top: 40px; margin-bottom: 20px; color: #0f172a;">Acciones Rápidas</h3>
                 <div style="display: flex; gap: 15px; flex-wrap: wrap;">
                     <button onclick="mostrarSeccion('jovenes'); document.getElementById('btn-nuevo-joven').click();" class="btn-primario">👤 Registrar Joven</button>
-                    <button onclick="mostrarSeccion('eventos'); document.getElementById('btn-nuevo-evento').click();" class="btn-primario" style="background-color: #10b981;">📅 Crear Evento</button>
-                    <button onclick="mostrarSeccion('conectores'); document.getElementById('btn-nuevo-conector').click();" class="btn-primario" style="background-color: #8b5cf6;">🤝 Añadir Conector</button>
+                    <button id="btn-nuevo-evento-rapido" onclick="mostrarSeccion('eventos'); document.getElementById('btn-nuevo-evento').click();" class="btn-primario" style="background-color: #10b981;">📅 Crear Evento</button>
+                    <button id="btn-nuevo-conector-rapido" onclick="mostrarSeccion('conectores'); document.getElementById('btn-nuevo-conector').click();" class="btn-primario" style="background-color: #8b5cf6;">🤝 Añadir Conector</button>
                 </div>
             </section>
 
-            <!-- DIRECTORIO JÓVENES -->
             <section id="jovenes" class="seccion-oculta">
                 <h1>Directorio de Jóvenes</h1>
                 <button id="btn-nuevo-joven" class="btn-primario">+ Añadir Joven</button>
                 <div id="lista-jovenes"></div>
             </section>
 
-            <!-- GESTIÓN EVENTOS -->
             <section id="eventos" class="seccion-oculta">
                 <h1>Control de Eventos</h1>
                 <button id="btn-nuevo-evento" class="btn-primario">+ Crear Evento</button>
                 <div id="lista-eventos"></div>
             </section>
 
-            <!-- EQUIPO CONECTORES -->
             <section id="conectores" class="seccion-oculta">
                 <h1>Equipo de Conectores</h1>
                 <button id="btn-nuevo-conector" class="btn-primario" style="background-color: #8b5cf6;">+ Añadir Conector</button>
@@ -72,13 +83,14 @@
         </main>
     </div>
 
+    <!-- MODALES EXISTENTES... -->
     <!-- MODAL: JOVEN -->
     <div id="modal-joven" class="modal-oculto">
         <div class="contenido-modal">
             <span id="cerrar-modal" class="btn-cerrar">&times;</span>
             <h2 id="titulo-modal-joven">Registrar Nuevo Joven</h2>
             <form id="formulario-joven">
-                <input type="hidden" id="id-joven-edit"> <!-- Campo oculto para saber si editamos -->
+                <input type="hidden" id="id-joven-edit">
                 <div class="grupo-inputs">
                     <div class="campo"><label>Nombre Completo:</label><input type="text" id="nombre" required></div>
                     <div class="campo"><label>Fecha de Nacimiento:</label><input type="date" id="fecha-nac"></div>
@@ -87,19 +99,8 @@
                     <div class="campo" style="grid-column: 1 / -1;"><label>Intereses, Gustos y Personalidad:</label><textarea id="intereses" rows="2"></textarea></div>
                     <div class="campo"><label>Dones / Área de Servicio:</label><input type="text" id="dones"></div>
                     <div class="campo"><label>Fecha Primera Visita:</label><input type="date" id="fecha-visita"></div>
-                    
-                    <div class="campo">
-                        <label>Conector Asignado:</label>
-                        <select id="conector"><option value="">Sin asignar</option></select>
-                    </div>
-                    <div class="campo">
-                        <label>Estado actual:</label>
-                        <select id="estado">
-                            <option value="Nuevo">Nuevo</option>
-                            <option value="Constante">Constante</option>
-                            <option value="Intermitente">Intermitente</option>
-                        </select>
-                    </div>
+                    <div class="campo"><label>Conector Asignado:</label><select id="conector"><option value="">Sin asignar</option></select></div>
+                    <div class="campo"><label>Estado actual:</label><select id="estado"><option value="Nuevo">Nuevo</option><option value="Constante">Constante</option><option value="Intermitente">Intermitente</option></select></div>
                 </div>
                 <div class="acciones-form"><button type="submit" class="btn-guardar">Guardar Perfil</button></div>
             </form>
@@ -122,7 +123,7 @@
         </div>
     </div>
 
-    <!-- MODAL: CONECTOR -->
+    <!-- MODAL: CONECTOR (ACTUALIZADO CON CONTRASEÑA) -->
     <div id="modal-conector" class="modal-oculto">
         <div class="contenido-modal">
             <span id="cerrar-modal-conector" class="btn-cerrar">&times;</span>
@@ -131,7 +132,10 @@
                 <input type="hidden" id="id-conector-edit">
                 <div class="grupo-inputs">
                     <div class="campo" style="grid-column: 1 / -1;"><label>Nombre Completo:</label><input type="text" id="nombre-conector" required></div>
-                    <div class="campo" style="grid-column: 1 / -1;"><label>WhatsApp:</label><input type="tel" id="whatsapp-conector"></div>
+                    <div class="campo"><label>WhatsApp:</label><input type="tel" id="whatsapp-conector"></div>
+                    <div class="campo"><label>Usuario (Login):</label><input type="text" id="usuario-conector" required placeholder="Ej. pedro"></div>
+                    <div class="campo" id="caja-pass-conector"><label>Contraseña Temporal:</label><input type="password" id="pass-conector" placeholder="Mínimo 6 letras/números"></div>
+                    <div class="campo" style="grid-column: 1 / -1;"><label>Rol en el sistema:</label><select id="rol-conector"><option value="conector">Conector (Solo ver jóvenes y asistencia)</option><option value="admin">Administrador (Acceso total)</option></select></div>
                 </div>
                 <div class="acciones-form"><button type="submit" class="btn-guardar" style="background-color: #8b5cf6;">Guardar Conector</button></div>
             </form>
@@ -146,22 +150,10 @@
             <form id="formulario-asistencia">
                 <input type="hidden" id="id-joven-asistencia">
                 <div class="grupo-inputs">
-                    <div class="campo" style="grid-column: 1 / -1;">
-                        <label>Seleccionar Evento:</label>
-                        <select id="select-evento-asistencia" required></select>
-                    </div>
-                    <div class="campo" style="grid-column: 1 / -1; flex-direction: row; gap: 15px; align-items: center;">
-                        <input type="checkbox" id="check-asistio" checked style="width: 20px; height: 20px;">
-                        <label style="margin-bottom: 0;">Asistió a la actividad</label>
-                    </div>
-                    <div class="campo" style="grid-column: 1 / -1; flex-direction: row; gap: 15px; align-items: center;">
-                        <input type="checkbox" id="check-participo" style="width: 20px; height: 20px;">
-                        <label style="margin-bottom: 0;">Fue participativo/a en las dinámicas</label>
-                    </div>
-                    <div class="campo" style="grid-column: 1 / -1;">
-                        <label>Notas del Conector:</label>
-                        <textarea id="notas-asistencia" rows="2"></textarea>
-                    </div>
+                    <div class="campo" style="grid-column: 1 / -1;"><label>Seleccionar Evento:</label><select id="select-evento-asistencia" required></select></div>
+                    <div class="campo" style="grid-column: 1 / -1; flex-direction: row; gap: 15px; align-items: center;"><input type="checkbox" id="check-asistio" checked style="width: 20px; height: 20px;"><label style="margin-bottom: 0;">Asistió a la actividad</label></div>
+                    <div class="campo" style="grid-column: 1 / -1; flex-direction: row; gap: 15px; align-items: center;"><input type="checkbox" id="check-participo" style="width: 20px; height: 20px;"><label style="margin-bottom: 0;">Fue participativo/a en las dinámicas</label></div>
+                    <div class="campo" style="grid-column: 1 / -1;"><label>Notas del Conector:</label><textarea id="notas-asistencia" rows="2"></textarea></div>
                 </div>
                 <div class="acciones-form"><button type="submit" class="btn-guardar">Guardar Registro</button></div>
             </form>
@@ -179,7 +171,28 @@
         </div>
     </div>
 
+    <!-- NUEVO MODAL: MI PERFIL (Para el usuario activo) -->
+    <div id="modal-mi-perfil" class="modal-oculto">
+        <div class="contenido-modal">
+            <span id="cerrar-modal-mi-perfil" class="btn-cerrar">&times;</span>
+            <h2>Editar Mi Perfil</h2>
+            <p style="color: #64748b; margin-bottom: 15px; font-size: 0.9rem;">Si cambias tu usuario o contraseña, tu sesión se cerrará y deberás volver a ingresar por seguridad.</p>
+            <form id="formulario-mi-perfil">
+                <input type="hidden" id="id-mi-perfil">
+                <div class="grupo-inputs">
+                    <div class="campo"><label>Mi Nombre:</label><input type="text" id="mi-nombre" required></div>
+                    <div class="campo"><label>Mi WhatsApp:</label><input type="tel" id="mi-whatsapp"></div>
+                    <div class="campo"><label>Mi Usuario (Login):</label><input type="text" id="mi-usuario" required></div>
+                    <div class="campo"><label>Nueva Contraseña:</label><input type="password" id="mi-pass" placeholder="Dejar en blanco para no cambiar"></div>
+                </div>
+                <div class="acciones-form"><button type="submit" class="btn-guardar" style="background-color: #38bdf8;">Guardar Cambios</button></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
     <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore-compat.js"></script>
     <script src="app.js"></script>
 </body>
