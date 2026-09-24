@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Unánimes - Panel de Control</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="contenedor-principal">
+        <!-- Menú Lateral -->
+        <aside class="menu-lateral">
+            <h2>Red Unánimes</h2>
+            <nav>
+                <button onclick="mostrarSeccion('panel')">Inicio</button>
+                <button onclick="mostrarSeccion('jovenes')">Directorio de Jóvenes</button>
+                <button onclick="mostrarSeccion('eventos')">Gestión de Eventos</button>
+            </nav>
+        </aside>
+
+        <!-- Área de Contenido -->
+        <main class="contenido">
+            <section id="panel" class="seccion-activa">
+                <h1>Bienvenido al Panel de Liderazgo</h1>
+                <p>Selecciona una opción en el menú para empezar.</p>
+            </section>
+
+            <section id="jovenes" class="seccion-oculta">
+                <h1>Directorio de Jóvenes</h1>
+                <button id="btn-nuevo-joven" class="btn-primario">+ Añadir Joven</button>
+                <div id="lista-jovenes">
+                    <!-- Aquí se cargarán las tarjetas de los jóvenes -->
+                </div>
+            </section>
+
+            <section id="eventos" class="seccion-oculta">
+                <h1>Control de Eventos</h1>
+                <button id="btn-nuevo-evento" class="btn-primario">+ Crear Evento</button>
+                <div id="lista-eventos">
+                    <!-- Aquí se cargarán los eventos -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Ventana Flotante (Modal) para el Formulario -->
+    <div id="modal-joven" class="modal-oculto">
+        <div class="contenido-modal">
+            <span id="cerrar-modal" class="btn-cerrar">&times;</span>
+            <h2>Registrar Nuevo Joven</h2>
+            
+            <form id="formulario-joven">
+                <div class="grupo-inputs">
+                    <div class="campo">
+                        <label>Nombre Completo:</label>
+                        <input type="text" id="nombre" required placeholder="Ej. Juan Pérez">
+                    </div>
+                    <div class="campo">
+                        <label>Fecha de Nacimiento:</label>
+                        <input type="date" id="fecha-nac" required>
+                    </div>
+                    <div class="campo">
+                        <label>WhatsApp:</label>
+                        <input type="tel" id="whatsapp" placeholder="Ej. 8888-8888">
+                    </div>
+                    <div class="campo">
+                        <label>Barrio / Sector:</label>
+                        <input type="text" id="barrio" placeholder="Ej. Centro, Santa Isabel...">
+                    </div>
+                    <div class="campo">
+                        <label>Intereses y Pasatiempos:</label>
+                        <textarea id="intereses" rows="2" placeholder="Deportes, música..."></textarea>
+                    </div>
+                    <div class="campo">
+                        <label>Dones / Área de Servicio:</label>
+                        <input type="text" id="dones" placeholder="Ej. Música, Logística">
+                    </div>
+                    <div class="campo">
+                        <label>Fecha de Primera Visita:</label>
+                        <input type="date" id="fecha-visita">
+                    </div>
+                    <div class="campo">
+                        <label>Conector Asignado:</label>
+                        <input type="text" id="conector" placeholder="Nombre del líder">
+                    </div>
+                    <div class="campo">
+                        <label>Estado actual:</label>
+                        <select id="estado">
+                            <option value="Nuevo">Nuevo</option>
+                            <option value="Constante">Constante</option>
+                            <option value="Intermitente">Intermitente</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="acciones-form">
+                    <button type="submit" class="btn-guardar">Guardar Perfil</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore-compat.js"></script>
+
+    <script src="app.js"></script>
+</body>
+</html>
